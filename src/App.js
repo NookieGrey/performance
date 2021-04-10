@@ -32,7 +32,13 @@ const MemoDuplex = memo(Duplex);
 const MemoLiner = memo(Liner);
 
 
-const calculate = (id, phase, actualDuration) => {
+const calculate = setOuterState => (id, phase, actualDuration) => {
+    if (phase === 'mount') {
+        setTimeout(() => setOuterState(increment), 10);
+
+        return;
+    }
+
     const name = `${phase}-${id}`;
 
     if (!localStorage.getItem(name)) {
@@ -47,9 +53,9 @@ const calculate = (id, phase, actualDuration) => {
     localStorage.setItem(name, JSON.stringify(dataArray));
 
     console.log(name, dataArray.length);
+
     if (dataArray.length < 100) {
-        // eslint-disable-next-line no-restricted-globals
-        location.reload();
+        setTimeout(() => setOuterState(increment), 10);
     } else if (typeIndex < 15) {
         localStorage.setItem('typeIndex', String(typeIndex + 1))
 
@@ -136,7 +142,7 @@ function Dynamic() {
             <Profiler
                 key={id}
                 id={id}
-                onRender={calculate}
+                onRender={calculate(setOuterState)}
             >
                 <Component
 
