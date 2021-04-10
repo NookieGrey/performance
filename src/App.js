@@ -1,5 +1,9 @@
 import {Profiler, useState, memo, useMemo, useCallback} from 'react';
 
+if (!localStorage.getItem('typeIndex')) {
+    localStorage.setItem('typeIndex', '0');
+}
+
 const MAX_NESTING_LVL = 10;
 
 const Duplex = props => {
@@ -27,13 +31,34 @@ const Liner = () => (
 const MemoDuplex = memo(Duplex);
 const MemoLiner = memo(Liner);
 
+
 const calculate = (id, phase, actualDuration) => {
-    console.log(id, phase, actualDuration);
-    // map[id].data.push(actualDuration);
+    const name = `${phase}-${id}`;
+
+    if (!localStorage.getItem(name)) {
+        localStorage.setItem(name, JSON.stringify([]));
+    }
+
+    const typeIndex = +localStorage.getItem('typeIndex');
+
+    const dataArray = JSON.parse(localStorage.getItem(name));
+    dataArray.push(Math.round(actualDuration));
+
+    localStorage.setItem(name, JSON.stringify(dataArray));
+
+    console.log(name, dataArray.length);
+    if (dataArray.length < 100) {
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
+    } else if (typeIndex < 15) {
+        localStorage.setItem('typeIndex', String(typeIndex + 1))
+
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
+    }
 };
 
 const increment = state => ({value: state.value + 1});
-
 
 const components = [
     {
@@ -52,112 +77,16 @@ const components = [
         status: 'every'
     },
     {
-        Component: MemoLiner,
+        Component: MemoDuplex,
         description: 'duplex',
         status: 'memo',
     },
 ];
 
-function Static() {
-    // const [nestingLvl, setNestingLvl] = useState({value: 0});
-    const [innerState, setInnerState] = useState({value: 0});
-    const [outerState, setOuterState] = useState({value: 0});
-
-
-    const everyNewObject = {
-        value: 0
-    };
-
-    const memoNewObject = useMemo(() => ({
-            value: 0
-        }
-    ), []);
-
-
-    const everyCallback = () => setInnerState(increment);
-    const memoCallback = useCallback(() => setInnerState(increment), []);
-
-    return (
-        <>
-            <Profiler id="static" onRender={calculate}>
-                <div>OuterState: {outerState.value}</div>
-                <div>InnerState: {innerState.value}</div>
-                <button onClick={() => setOuterState(increment)}>change outer state</button>
-
-                <Profiler id="static-every-liner-every-data-every-callback" onRender={calculate}>
-                    <Liner state={everyNewObject} callback={everyCallback}/>
-                </Profiler>
-
-                <Profiler id="static-memo-liner-every-data-every-callback" onRender={calculate}>
-                    <MemoLiner state={everyNewObject} callback={everyCallback}/>
-                </Profiler>
-
-                <Profiler id="static-every-duplex-every-data-every-callback" onRender={calculate}>
-                    <Duplex nestingLvl={0} state={everyNewObject} callback={everyCallback}/>
-                </Profiler>
-
-                <Profiler id="static-memo-duplex-every-data-every-callback" onRender={calculate}>
-                    <MemoDuplex nestingLvl={0} state={everyNewObject} callback={everyCallback}/>
-                </Profiler>
-
-                <Profiler id="static-every-liner-memo-data-every-callback" onRender={calculate}>
-                    <Liner state={memoNewObject} callback={everyCallback}/>
-                </Profiler>
-
-                <Profiler id="static-memo-liner-memo-data-every-callback" onRender={calculate}>
-                    <MemoLiner state={memoNewObject} callback={everyCallback}/>
-                </Profiler>
-
-                <Profiler id="static-every-duplex-memo-data-every-callback" onRender={calculate}>
-                    <Duplex nestingLvl={0} state={memoNewObject} callback={everyCallback}/>
-                </Profiler>
-
-                <Profiler id="static-memo-duplex-memo-data-every-callback" onRender={calculate}>
-                    <MemoDuplex nestingLvl={0} state={memoNewObject} callback={everyCallback}/>
-                </Profiler>
-
-                <Profiler id="static-every-liner-every-data-memo-callback" onRender={calculate}>
-                    <Liner state={everyNewObject} callback={memoCallback}/>
-                </Profiler>
-
-                <Profiler id="static-memo-liner-every-data-memo-callback" onRender={calculate}>
-                    <MemoLiner state={everyNewObject} callback={memoCallback}/>
-                </Profiler>
-
-                <Profiler id="static-every-duplex-every-data-memo-callback" onRender={calculate}>
-                    <Duplex nestingLvl={0} state={everyNewObject} callback={memoCallback}/>
-                </Profiler>
-
-                <Profiler id="static-memo-duplex-every-data-memo-callback" onRender={calculate}>
-                    <MemoDuplex nestingLvl={0} state={everyNewObject} callback={memoCallback}/>
-                </Profiler>
-
-                <Profiler id="static-every-liner-memo-data-memo-callback" onRender={calculate}>
-                    <Liner state={memoNewObject} callback={memoCallback}/>
-                </Profiler>
-
-                <Profiler id="static-memo-liner-memo-data-memo-callback" onRender={calculate}>
-                    <MemoLiner state={memoNewObject} callback={memoCallback}/>
-                </Profiler>
-
-                <Profiler id="static-every-duplex-memo-data-memo-callback" onRender={calculate}>
-                    <Duplex nestingLvl={0} state={memoNewObject} callback={memoCallback}/>
-                </Profiler>
-
-                <Profiler id="static-memo-duplex-memo-data-memo-callback" onRender={calculate}>
-                    <MemoDuplex nestingLvl={0} state={memoNewObject} callback={memoCallback}/>
-                </Profiler>
-
-            </Profiler>
-        </>
-    );
-}
-
 function Dynamic() {
-    // const [nestingLvl, setNestingLvl] = useState({value: 0});
-    const [innerState, setInnerState] = useState({value: 0});
-    const [outerState, setOuterState] = useState({value: 0});
+    const typeIndex = +localStorage.getItem('typeIndex');
 
+    const [outerState, setOuterState] = useState({value: 0});
 
     const everyNewObject = {
         value: 0
@@ -170,17 +99,17 @@ function Dynamic() {
 
     const data = [
         {
-            data: everyNewObject,
+            state: everyNewObject,
             status: 'every'
         },
         {
-            data: memoNewObject,
+            state: memoNewObject,
             status: 'memo'
         },
     ]
 
-    const everyCallback = () => setInnerState(increment);
-    const memoCallback = useCallback(() => setInnerState(increment), []);
+    const everyCallback = () => setOuterState(increment);
+    const memoCallback = useCallback(() => setOuterState(increment), []);
 
     const callbacks = [
         {
@@ -193,46 +122,32 @@ function Dynamic() {
         },
     ]
 
+    const {Component, description, status} = components[typeIndex % 4];
+    const {status: dataStatus, state} = data[Math.floor(typeIndex / 4) % 2]
+    const {status: callbackStatus, callback} = callbacks[Math.floor(typeIndex / 8) % 2];
+
+    const id = `${status}-${description}-${dataStatus}-data-${callbackStatus}-callback`;
+
     return (
         <>
-            <Profiler id="dynamic" onRender={calculate}>
-                <div>OuterState: {outerState.value}</div>
-                <div>InnerState: {innerState.value}</div>
-                <button onClick={() => setOuterState(increment)}>change outer state</button>
+            <div>OuterState: {outerState.value}</div>
+            <button onClick={() => setOuterState(increment)}>change outer state</button>
 
-                {callbacks
-                    .map(({status: callbackStatus, callback}) => data
-                        .map(({status: dataStatus, data}) => components
-                            .map(({Component, description, status}) => {
+            <Profiler
+                key={id}
+                id={id}
+                onRender={calculate}
+            >
+                <Component
 
-                                const id = `dynamic-${status}-${description}-${dataStatus}-data-${callbackStatus}-callback`;
-
-                                return (
-                                    <Profiler
-                                        key={id}
-                                        id={id}
-                                        onRender={calculate}
-                                    >
-                                        <Component
-
-                                            nestingLvl={0}
-                                            state={data}
-                                            callback={callback}
-                                        />
-                                    </Profiler>
-                                )
-                            })))}
-
+                    nestingLvl={0}
+                    state={state}
+                    callback={callback}
+                />
             </Profiler>
+
         </>
     );
 }
 
-const App = () => (
-    <>
-        <Dynamic/>
-        <Static/>
-    </>
-)
-
-export default App;
+export default Dynamic;
