@@ -1,0 +1,12 @@
+.wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.chart {
+    flex: 5;
+}
+
+.form {
+    flex: 3;
+}
