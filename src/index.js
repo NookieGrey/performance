@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Index from "./App";
+import Index from "./Vizualize";
 
 ReactDOM.render(
   <React.StrictMode>

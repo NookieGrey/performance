@@ -1,12 +1,19 @@
-import {VictoryChart, VictoryLine, VictoryTooltip, VictoryVoronoiContainer, VictoryAxis} from 'victory';
+import {
+    VictoryChart,
+    VictoryLine,
+    VictoryTooltip,
+    VictoryVoronoiContainer,
+    VictoryAxis,
+    VictoryLabel,
+    VictoryScatter
+} from 'victory';
 import {useMemo, useState, useReducer} from 'react';
 
 import './virtualize.css';
 
-import json from './data.json';
+import json from './data5.json';
 
 const DEFAULT_PHASE = '1';
-const DEFAULT_COMPONENT = '2';
 
 function reducer(state, action) {
     return {
@@ -17,15 +24,12 @@ function reducer(state, action) {
 
 const Visualize = () => {
     const [phase, setPhase] = useState(DEFAULT_PHASE);
-    const [component, setComponent] = useState(DEFAULT_COMPONENT);
     const [checks, dispatchChecks] = useReducer(reducer, {});
 
     const filtered = useMemo(() => json
             .filter(({name}) => {
                 if (phase === '1' && !name.includes("mount")) return false;
                 if (phase === '2' && !name.includes("update")) return false;
-                if (component === '1' && !name.includes("liner")) return false;
-                if (component === '2' && !name.includes("duplex")) return false;
 
                 return true;
             })
@@ -40,7 +44,7 @@ const Visualize = () => {
                 return 0;
             })
 
-        , [component, phase]);
+        , [phase]);
 
     const checked = useMemo(() => filtered
             .filter(({name}) => checks[name] ?? true)
@@ -64,9 +68,9 @@ const Visualize = () => {
                 >
                     <VictoryAxis
                         dependentAxis
-                        domain={[0, 140]}
+                        domain={[100, 240]}
                         label="Time (ms)"
-                        tickValues={[0, 20, 60, 100, 140]}
+                        tickValues={[134, 152]}
 
                     />
                     {lines.map(({name, data}) => {
@@ -80,26 +84,58 @@ const Visualize = () => {
                             />
                         )
                     })}
+                    {
+                        [
+                            {value: 134, text: 'Every New Object'},
+                            {value: 152, text: 'Memo Object'},
+                        ].map((d, i) => {
+                            return (
+                                <VictoryScatter
+                                    data={[{x: 150, y: d.value}]}
+                                    labels={d.text}
+                                    size={1}
+                                    labelComponent={
+                                        <VictoryLabel
+                                            dy={0}
+                                            backgroundStyle={{fill: "#c43a31"}}
+                                            style={[{fill: "#fff"}]}
+                                        />
+                                    }
+                                />
+                            );
+                        })
+                    }
+                    {
+                        [
+                            {value: 134, text: 'Every New Object'},
+                            {value: 152, text: 'Memo Object'},
+                        ].map((d, i) => {
+                            return (
+                                <VictoryAxis
+                                    key={i}
+                                    style={{tickLabels: {fill: "none"}}}
+                                    axisValue={d.value}
+                                />
+                            );
+                        })
+                    }
 
                 </VictoryChart>
             </div>
             <div className="form">
-                <label>
-                    <div>Phase:</div>
-                    <select onChange={event => setPhase(event.target.value)} defaultValue={DEFAULT_PHASE}>
-                        <option value="3">All</option>
-                        <option value="1">Mount</option>
-                        <option value="2">Update</option>
-                    </select>
-                </label>
-                <label>
-                    <div>Component:</div>
-                    <select onChange={event => setComponent(event.target.value)} defaultValue={DEFAULT_COMPONENT}>
-                        <option value="3">All</option>
-                        <option value="1">Liner</option>
-                        <option value="2">Duplex</option>
-                    </select>
-                </label>
+                <div>
+                    <label>
+                        Phase:{' '}
+                        <select onChange={event => setPhase(event.target.value)} defaultValue={DEFAULT_PHASE}>
+                            <option value="3">All</option>
+                            <option value="1">Mount</option>
+                            <option value="2">Update</option>
+                        </select>
+                    </label>
+                </div>
+                <br/>
+                <br/>
+                <br/>
                 {filtered.map(({name}) => {
                     return (
                         <div key={name}>
