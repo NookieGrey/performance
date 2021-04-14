@@ -58,7 +58,7 @@ const ComponentM = memo(({nestingLvl, state, callback}) => {
         </>
     )
 });
-ComponentM.name = 'ComponentMEE';
+ComponentM.name = 'ComponentM';
 
 
 const types = [
@@ -86,16 +86,15 @@ const calculate = callback => (id, phase, actualDuration) => {
 
     localStorage.setItem(name, JSON.stringify(data));
 
-    if (data.length < 500) {
+    console.log(typeIndex, name, data.length);
+
+    if (data.length < 100) {
         setTimeout(callback, 10);
 
-        // eslint-disable-next-line no-restricted-globals
-        // setTimeout(() => location.reload(), 50);
     } else if (typeIndex < 7) {
         localStorage.setItem('typeIndex', String(typeIndex + 1));
 
-        // eslint-disable-next-line no-restricted-globals
-        setTimeout(() => location.reload(), 50);
+        setTimeout(callback, 10);
     }
 };
 
@@ -105,7 +104,7 @@ function Generator() {
     const typeIndex = +localStorage.getItem('typeIndex');
     const Component = types[typeIndex % 2];
     const [outerState, setOuterState] = useState({value: 0});
-    const everyCallback = () => setOuterState(increment)
+    const everyCallback = () => () => console.log('I`m inner');
     const memoCallback = useCallback(everyCallback, []);
     const someData = {
         value: 0
@@ -117,17 +116,18 @@ function Generator() {
     const data = Math.floor(typeIndex / 2) % 2 ? someData : someMemoData;
     const callback = Math.floor(typeIndex / 4) % 2 ? everyCallback : memoCallback;
 
+    const profilerCallback = useCallback((...args) => calculate(() => setOuterState(increment))(...args), []);
 
     if (typeIndex === 8) return <div>Finished</div>;
 
     return (
         <>
             <div>typeIndex: {typeIndex}</div>
-            <div>outerState: {outerState}</div>
+            <div>outerState: {outerState.value}</div>
             <div>Hello I'm test of update with and without memo/callback</div>
             <Profiler
-                id={Component.name}
-                onRender={calculate(callback)}
+                id={`${Component.name}${(Math.floor(typeIndex / 2) % 2) ? "E" : "M"}${(Math.floor(typeIndex / 4) % 2) ? "E" : "M"}`}
+                onRender={profilerCallback}
             >
                 <Component
                     nestingLvl={10}

@@ -4,9 +4,14 @@ import {
     Route,
     Link
 } from "react-router-dom";
-import GeneratorMount from "./GeneratorMount";
+import GeneratorMountPage from "./GeneratorMountPage";
+import GeneratorMountPage5 from "./GeneratorMountPage5";
+import GeneratorMountState from "./GeneratorMountState";
 import GeneratorUpdate from "./GeneratorUpdate";
-import VisualizeMount from "./VisualizeMount";
+import VisualizeMountPage from "./VisualizeMountPage";
+import VisualizeMountState from "./VisualizeMountState";
+import VisualizeMountPage5 from "./VisualizeMountPage5";
+import VisualizeUpdate from "./VisualizeUpdate";
 
 const Routes = () => {
     return (
@@ -17,28 +22,63 @@ const Routes = () => {
                         <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <Link to="/generatorMount">Generate Mount</Link>
+                        <Link to="/generatorMountPage">Generate Mount Page Reload</Link>
+                    </li>
+                    <li>
+                        <Link to="/generatorMountPage5">Generate Mount 5 Page Reload</Link>
+                    </li>
+                    <li>
+                        <Link to="/GeneratorMountState">Generate Mount State Reload</Link>
                     </li>
                     <li>
                         <Link to="/generatorUpdate">Generate Update</Link>
                     </li>
                     <li>
-                        <Link to="/visualizeMount">Visualize Mount</Link>
+                        <Link to="/visualizeMountState">Visualize Mount State Reload</Link>
+                    </li>
+                    <li>
+                        <Link to="/visualizeMountPage">Visualize Mount Page Reload</Link>
+                    </li>
+                    <li>
+                        <Link to="/visualizeMountPage5">Visualize Mount 5 Page Reload</Link>
+                    </li>
+                    <li>
+                        <Link to="/visualizeUpdate">Visualize Update</Link>
                     </li>
                 </ul>
             </nav>
             <Switch>
                 <Route
-                    path="/generatorMount"
-                    component={GeneratorMount}
+                    path="/generatorMountPage"
+                    component={GeneratorMountPage}
+                />
+                <Route
+                    path="/generatorMountPage5"
+                    component={GeneratorMountPage5}
+                />
+                <Route
+                    path="/GeneratorMountState"
+                    component={GeneratorMountState}
                 />
                 <Route
                     path="/generatorUpdate"
                     component={GeneratorUpdate}
                 />
                 <Route
-                    path="/visualizeMount"
-                    component={VisualizeMount}
+                    path="/visualizeMountPage"
+                    component={VisualizeMountPage}
+                />
+                <Route
+                    path="/visualizeMountState"
+                    component={VisualizeMountState}
+                />
+                <Route
+                    path="/visualizeMountPage5"
+                    component={VisualizeMountPage5}
+                />
+                <Route
+                    path="/visualizeUpdate"
+                    component={VisualizeUpdate}
                 />
             </Switch>
         </Router>
