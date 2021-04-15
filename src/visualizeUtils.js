@@ -1,6 +1,4 @@
-import json from "./mount.json";
-
-export function reducer(state, {type, value}) {
+export const reducer = json => (state, {type, value}) => {
     if (type === 'all') {
         if (value) {
             return {}

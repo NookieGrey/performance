@@ -2,20 +2,21 @@ import {
     VictoryChart,
     VictoryLine,
     VictoryAxis,
-    VictoryZoomContainer,
 } from 'victory';
 import {Fragment, useMemo, useReducer} from 'react';
 
 import './virtualize.css';
 
-import json from './mount4.json';
-import {reducer, action, getColor, allChecked, MemoLabels} from "./visualizeUtils";
+import json from './wormUp.json';
+import {reducer, action, getColor, allChecked} from "./visualizeUtils";
 
-const zoomDomain = {y: [200, 300]};
+const zoomDomain = {y: [60, 200]};
 
 const Visualize = () => {
-    const [lineChecks, dispatchLine] = useReducer(reducer(json), {});
-    const [axisChecks, dispatchAxis] = useReducer(reducer(json), {});
+    const [lineChecks, dispatchLine] = useReducer(reducer(json), {
+    });
+    const [axisChecks, dispatchAxis] = useReducer(reducer(json), {
+    });
 
     const checkedLines = useMemo(() => json
             .filter(({name}) => lineChecks[name] ?? true)
@@ -30,19 +31,14 @@ const Visualize = () => {
             <div className="chart">
                 <VictoryChart
                     height={400}
-                    containerComponent={
-                        <VictoryZoomContainer
-                            zoomDimension="y"
-                            zoomDomain={zoomDomain}
-                        />
-                    }
+
                 >
                     <VictoryAxis
                         dependentAxis
                         crossAxis
                         label="Time (ms)"
                         style={{axisLabel: {padding: 35}}}
-                        tickValues={[275, ...zoomDomain.y, ...averages.map(({average}) => average)]}
+                        tickValues={[...zoomDomain.y, ...averages.map(({average}) => average)]}
                         tickFormat={undefined}
                     />
                     {checkedLines.map(({name, data, index}) => {
@@ -70,7 +66,7 @@ const Visualize = () => {
 
                 </VictoryChart>
             </div>
-            <div className="form">
+            <div className="form-simple">
                 <input
                     type='checkbox' checked={allChecked(lineChecks) && allChecked(axisChecks)}
                     onChange={event => {
@@ -82,9 +78,7 @@ const Visualize = () => {
                     type='checkbox' checked={allChecked(lineChecks)}
                     onChange={event => dispatchLine(action()(event))}
                 />
-                <span>memo</span>
-                <span>useMemo</span>
-                <span>useCallback</span>
+                <span>Name</span>
                 <label>
                     <input
                         type='checkbox' checked={allChecked(axisChecks)}
@@ -106,11 +100,7 @@ const Visualize = () => {
                                 type='checkbox' checked={lineChecks[name] ?? true}
                                 onChange={event => dispatchLine(action(name)(event))}
                             />
-                            <MemoLabels
-                                name={name}
-                                index={index}
-                                total={json.length}
-                            />
+                            <span style={{color: getColor(index, json.length)}}>{name}</span>
                             <label>
                                 <input
                                     type='checkbox' checked={axisChecks[name] ?? true}

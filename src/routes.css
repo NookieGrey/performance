@@ -1,0 +1,6 @@
+.menu {
+    display: flex;
+}
+.menu ul {
+    list-style: none;
+}

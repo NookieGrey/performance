@@ -11,13 +11,13 @@ import './virtualize.css';
 import json from './update.json';
 import {reducer, action, getColor, allChecked, MemoLabels} from "./visualizeUtils";
 
-const zoomDomain = {y: [55, 75]};
+const zoomDomain = {y: [55, 100]};
 
 const Visualize = () => {
-    const [lineChecks, dispatchLine] = useReducer(reducer, {
+    const [lineChecks, dispatchLine] = useReducer(reducer(json), {
         'update-ComponentMMM': false
     });
-    const [axisChecks, dispatchAxis] = useReducer(reducer, {
+    const [axisChecks, dispatchAxis] = useReducer(reducer(json), {
         'update-ComponentMMM': false
     });
 
@@ -29,16 +29,18 @@ const Visualize = () => {
             .filter(({name}) => axisChecks[name] ?? true)
         , [axisChecks]);
 
+    const applyZoom = (lineChecks['update-ComponentMMM'] ?? true) && (axisChecks['update-ComponentMMM'] ?? true);
+
     return (
         <div className='wrapper'>
             <div className="chart">
                 <VictoryChart
                     height={400}
                     containerComponent={
-                        <VictoryZoomContainer
+                        !applyZoom ? <VictoryZoomContainer
                             zoomDimension="y"
                             zoomDomain={zoomDomain}
-                        />
+                        /> : undefined
                     }
                 >
                     <VictoryAxis

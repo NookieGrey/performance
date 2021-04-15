@@ -14,8 +14,8 @@ import {reducer, action, getColor, allChecked, MemoLabels} from "./visualizeUtil
 const zoomDomain = {y: [65, 100]};
 
 const Visualize = () => {
-    const [lineChecks, dispatchLine] = useReducer(reducer, {});
-    const [axisChecks, dispatchAxis] = useReducer(reducer, {});
+    const [lineChecks, dispatchLine] = useReducer(reducer(json), {});
+    const [axisChecks, dispatchAxis] = useReducer(reducer(json), {});
 
     const checkedLines = useMemo(() => json
             .filter(({name}) => lineChecks[name] ?? true)
@@ -66,8 +66,8 @@ const Visualize = () => {
                                     axisValue={average}
                                 />
                             );
-                        })}
-
+                        })
+                    }
                 </VictoryChart>
             </div>
             <div className="form">
