@@ -11,7 +11,7 @@ import './virtualize.css';
 import json from './mount4.json';
 import {reducer, action, getColor, allChecked, MemoLabels} from "./visualizeUtils";
 
-const zoomDomain = {y: [200, 300]};
+const zoomDomain = {y: [200, 350]};
 
 const Visualize = () => {
     const [lineChecks, dispatchLine] = useReducer(reducer(json), {});
