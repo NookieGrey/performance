@@ -9,16 +9,30 @@
     flex: 5;
 }
 
+.chart:after {
+    content: "https://github.com/NookieGrey/performance";
+    display: block;
+    text-align: right;
+    margin-right: 60px;
+    font-size: 2em;
+}
+
 .form {
+    float: right;
     flex: 3;
     display: grid;
     grid-gap: 0 10px;
     grid-template-columns: max-content max-content max-content max-content max-content max-content;
+    margin-right: 60px;
+    margin-top: 20px;
 }
 
 .form-simple {
+    float: right;
     flex: 3;
     display: grid;
     grid-gap: 0 10px;
     grid-template-columns: max-content max-content max-content max-content;
+    margin-right: 60px;
+    margin-top: 20px;
 }

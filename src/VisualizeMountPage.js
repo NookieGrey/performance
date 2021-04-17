@@ -11,7 +11,6 @@ import './virtualize.css';
 import json from './mount.json';
 import {reducer, action, getColor, allChecked, MemoLabels} from "./visualizeUtils";
 
-
 const Visualize = () => {
     const [lineChecks, dispatchLine] = useReducer(reducer(json), {});
     const [axisChecks, dispatchAxis] = useReducer(reducer(json), {});
@@ -25,51 +24,7 @@ const Visualize = () => {
         , [axisChecks]);
 
     return (
-        <div className='wrapper'>
-            <div className="chart">
-                <VictoryChart
-                    height={400}
-                    containerComponent={
-                        <VictoryZoomContainer
-                            zoomDimension="y"
-                            zoomDomain={{y: [130, 210]}}
-                        />
-                    }
-                >
-                    <VictoryAxis
-                        dependentAxis
-                        crossAxis
-                        label="Time (ms)"
-                        style={{axisLabel: {padding: 35}}}
-                        tickValues={[130, 165, 180, 210, ...averages.map(({average}) => average)]}
-                        tickFormat={undefined}
-                    />
-                    {checkedLines.map(({name, data, index}) => {
-                        return (
-                            <VictoryLine
-                                key={name}
-                                interpolation='bundle'
-                                data={data}
-                                style={{data: {stroke: getColor(index, json.length)}}}
-                            />
-                        )
-                    })}
-                    {averages
-                        .map(({average, index}) => {
-                            return (
-                                <VictoryAxis
-                                    key={index}
-                                    style={{
-                                        tickLabels: {fill: "none"},
-                                        axis: {stroke: getColor(index, json.length), strokeWidth: 5}
-                                    }}
-                                    axisValue={average}
-                                />
-                            );
-                        })}
-
-                </VictoryChart>
-            </div>
+        <>
             <div className="form">
                 <input
                     type='checkbox' checked={allChecked(lineChecks) && allChecked(axisChecks)}
@@ -122,7 +77,53 @@ const Visualize = () => {
                     )
                 })}
             </div>
-        </div>
+            <div className="clear"/>
+            <h1>Стоимость мемоизации 10-15%</h1>
+            <div className="chart">
+                <VictoryChart
+                    height={600}
+                    width={1600}
+                    containerComponent={
+                        <VictoryZoomContainer
+                            zoomDimension="y"
+                            zoomDomain={{y: [130, 210]}}
+                        />
+                    }
+                >
+                    <VictoryAxis
+                        dependentAxis
+                        crossAxis
+                        label="Time (ms)"
+                        style={{axisLabel: {padding: 35}}}
+                        tickValues={[130, 165, 180, 210, ...averages.map(({average}) => average)]}
+                        tickFormat={undefined}
+                    />
+                    {checkedLines.map(({name, data, index}) => {
+                        return (
+                            <VictoryLine
+                                key={name}
+                                data={data}
+                                style={{data: {stroke: getColor(index, json.length)}}}
+                            />
+                        )
+                    })}
+                    {averages
+                        .map(({average, index}) => {
+                            return (
+                                <VictoryAxis
+                                    key={index}
+                                    style={{
+                                        tickLabels: {fill: "none"},
+                                        axis: {stroke: getColor(index, json.length), strokeWidth: 5}
+                                    }}
+                                    axisValue={average}
+                                />
+                            );
+                        })}
+
+                </VictoryChart>
+            </div>
+        </>
     )
 }
 

@@ -1,6 +1,29 @@
 .menu {
     display: flex;
+    float: left;
 }
 .menu ul {
     list-style: none;
+}
+
+.clear {
+    clear: both;
+}
+
+body {
+    font-family: Arial, serif;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(25,70,230);
+}
+
+a:visited {
+    color: rgb(25,70,230);
 }

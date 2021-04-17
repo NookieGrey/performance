@@ -32,50 +32,7 @@ const Visualize = () => {
     const applyZoom = (lineChecks['update-ComponentMMM'] ?? true) && (axisChecks['update-ComponentMMM'] ?? true);
 
     return (
-        <div className='wrapper'>
-            <div className="chart">
-                <VictoryChart
-                    height={400}
-                    containerComponent={
-                        !applyZoom ? <VictoryZoomContainer
-                            zoomDimension="y"
-                            zoomDomain={zoomDomain}
-                        /> : undefined
-                    }
-                >
-                    <VictoryAxis
-                        dependentAxis
-                        crossAxis
-                        label="Time (ms)"
-                        style={{axisLabel: {padding: 35}}}
-                        tickValues={[...zoomDomain.y, ...averages.map(({average}) => average)]}
-                        tickFormat={undefined}
-                    />
-                    {checkedLines.map(({name, data, index}) => {
-                        return (
-                            <VictoryLine
-                                key={name}
-                                data={data}
-                                style={{data: {stroke: getColor(index, json.length)}}}
-                            />
-                        )
-                    })}
-                    {averages
-                        .map(({average, index}) => {
-                            return (
-                                <VictoryAxis
-                                    key={index}
-                                    style={{
-                                        tickLabels: {fill: "none"},
-                                        axis: {stroke: getColor(index, json.length), strokeWidth: 5}
-                                    }}
-                                    axisValue={average}
-                                />
-                            );
-                        })}
-
-                </VictoryChart>
-            </div>
+        <>
             <div className="form">
                 <input
                     type='checkbox' checked={allChecked(lineChecks) && allChecked(axisChecks)}
@@ -128,7 +85,53 @@ const Visualize = () => {
                     )
                 })}
             </div>
-        </div>
+            <div className="clear"/>
+            <h1>memo работает только в триплете</h1>
+            <div className="chart">
+                <VictoryChart
+                    height={600}
+                    width={1600}
+                    containerComponent={
+                        !applyZoom ? <VictoryZoomContainer
+                            zoomDimension="y"
+                            zoomDomain={zoomDomain}
+                        /> : undefined
+                    }
+                >
+                    <VictoryAxis
+                        dependentAxis
+                        crossAxis
+                        label="Time (ms)"
+                        style={{axisLabel: {padding: 35}}}
+                        tickValues={[...zoomDomain.y, ...averages.map(({average}) => average)]}
+                        tickFormat={undefined}
+                    />
+                    {checkedLines.map(({name, data, index}) => {
+                        return (
+                            <VictoryLine
+                                key={name}
+                                data={data}
+                                style={{data: {stroke: getColor(index, json.length)}}}
+                            />
+                        )
+                    })}
+                    {averages
+                        .map(({average, index}) => {
+                            return (
+                                <VictoryAxis
+                                    key={index}
+                                    style={{
+                                        tickLabels: {fill: "none"},
+                                        axis: {stroke: getColor(index, json.length), strokeWidth: 5}
+                                    }}
+                                    axisValue={average}
+                                />
+                            );
+                        })}
+
+                </VictoryChart>
+            </div>
+        </>
     )
 }
 
