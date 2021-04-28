@@ -1,13 +1,14 @@
 .menu {
     display: flex;
-    float: left;
+    float: right;
 }
 .menu ul {
     list-style: none;
+    padding-left: 20px;
 }
 
 .clear {
-    clear: both;
+    /*clear: both;*/
 }
 
 body {

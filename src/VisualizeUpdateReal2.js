@@ -10,7 +10,7 @@ import './virtualize.css';
 import json from './real2.json';
 import {reducer, action, allChecked} from "./visualizeUtils";
 
-const zoomDomain = {y: [0, 50]};
+const zoomDomain = {y: [0, 60]};
 
 const getColor = (index) => ['rgb(245,205,70)', 'rgb(25,70,230)'][index];
 
@@ -77,10 +77,11 @@ const Visualize = () => {
                 })}
             </div>
             <div className="clear"/>
+            <h1>реальные примеры</h1>
             <div className="chart">
                 <VictoryChart
-                    height={600}
-                    width={1600}
+                    height={800}
+                    width={1000}
                     containerComponent={
                         <VictoryZoomContainer
                             zoomDimension="y"
@@ -100,7 +101,7 @@ const Visualize = () => {
                         return (
                             <VictoryLine
                                 key={name}
-                                data={data}
+                                data={data} interpolation="natural"
                                 style={{data: {stroke: getColor(index, json.length)}}}
                             />
                         )

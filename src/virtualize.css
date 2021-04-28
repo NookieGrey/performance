@@ -1,12 +1,6 @@
-.wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 1000px;
-}
-
 .chart {
-    flex: 5;
+    float: left;
+    width: 1000px;
 }
 
 .chart:after {
@@ -19,12 +13,13 @@
 
 .form {
     float: right;
-    flex: 3;
     display: grid;
     grid-gap: 0 10px;
     grid-template-columns: max-content max-content max-content max-content max-content max-content;
-    margin-right: 60px;
-    margin-top: 20px;
+    /* todo make normal position */
+    margin-right: -440px;
+    margin-top: 160px;
+    font-size: 20px;
 }
 
 .form-simple {
@@ -33,6 +28,7 @@
     display: grid;
     grid-gap: 0 10px;
     grid-template-columns: max-content max-content max-content max-content;
-    margin-right: 60px;
-    margin-top: 20px;
+    margin-right: -440px;
+    margin-top: 160px;
+    font-size: 20px;
 }

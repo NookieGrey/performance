@@ -11,6 +11,8 @@ import './virtualize.css';
 import json from './mount.json';
 import {reducer, action, getColor, allChecked, MemoLabels} from "./visualizeUtils";
 
+const zoomDomain = {y: [135, 160]};
+
 const Visualize = () => {
     const [lineChecks, dispatchLine] = useReducer(reducer(json), {});
     const [axisChecks, dispatchAxis] = useReducer(reducer(json), {});
@@ -81,12 +83,12 @@ const Visualize = () => {
             <h1>Стоимость мемоизации 10-15%</h1>
             <div className="chart">
                 <VictoryChart
-                    height={600}
-                    width={1600}
+                    height={800}
+                    width={1000}
                     containerComponent={
                         <VictoryZoomContainer
                             zoomDimension="y"
-                            zoomDomain={{y: [130, 210]}}
+                            zoomDomain={zoomDomain}
                         />
                     }
                 >
@@ -95,14 +97,14 @@ const Visualize = () => {
                         crossAxis
                         label="Time (ms)"
                         style={{axisLabel: {padding: 35}}}
-                        tickValues={[130, 165, 180, 210, ...averages.map(({average}) => average)]}
+                        tickValues={[...zoomDomain.y, ...averages.map(({average}) => average)]}
                         tickFormat={undefined}
                     />
                     {checkedLines.map(({name, data, index}) => {
                         return (
                             <VictoryLine
                                 key={name}
-                                data={data}
+                                data={data} interpolation="natural"
                                 style={{data: {stroke: getColor(index, json.length)}}}
                             />
                         )

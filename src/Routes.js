@@ -26,11 +26,6 @@ const Routes = () => {
             <nav className="menu">
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
                         <Link to="/visualizeWormUp">Visualize Worm Up</Link>
                     </li>
                     <li>

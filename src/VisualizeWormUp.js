@@ -82,8 +82,8 @@ const Visualize = () => {
             <h1>Один прогон - один Profiler</h1>
             <div className="chart">
                 <VictoryChart
-                    height={600}
-                    width={1600}
+                    height={800}
+                    width={1000}
                     containerComponent={
                         !applyZoom ? <VictoryZoomContainer
                             zoomDimension="y"
@@ -103,7 +103,7 @@ const Visualize = () => {
                         return (
                             <VictoryLine
                                 key={name}
-                                data={data}
+                                data={data} interpolation="natural"
                                 style={{data: {stroke: getColor(index, json.length)}}}
                             />
                         )

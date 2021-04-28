@@ -11,7 +11,7 @@ import './virtualize.css';
 import json from './update.json';
 import {reducer, action, getColor, allChecked, MemoLabels} from "./visualizeUtils";
 
-const zoomDomain = {y: [55, 100]};
+const zoomDomain = {y: [55, 70]};
 
 const Visualize = () => {
     const [lineChecks, dispatchLine] = useReducer(reducer(json), {
@@ -89,8 +89,8 @@ const Visualize = () => {
             <h1>memo работает только в триплете</h1>
             <div className="chart">
                 <VictoryChart
-                    height={600}
-                    width={1600}
+                    height={800}
+                    width={1000}
                     containerComponent={
                         !applyZoom ? <VictoryZoomContainer
                             zoomDimension="y"
@@ -110,7 +110,7 @@ const Visualize = () => {
                         return (
                             <VictoryLine
                                 key={name}
-                                data={data}
+                                data={data} interpolation="natural"
                                 style={{data: {stroke: getColor(index, json.length)}}}
                             />
                         )
