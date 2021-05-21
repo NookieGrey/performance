@@ -1,23 +1,23 @@
 import {
     VictoryChart,
     VictoryLine,
-    VictoryAxis,
+    VictoryAxis, VictoryZoomContainer,
 } from 'victory';
 import {Fragment, useMemo, useReducer} from 'react';
 
-import './virtualize.css';
+import './visualize.css';
 
-import json from './updateReal.json';
-import {reducer, action, allChecked} from "./visualizeUtils";
+import json from '../data/wormUp.json';
+import {reducer, action, getColor, allChecked} from "./visualizeUtils";
 
-const zoomDomain = {y: [0, 50]};
-
-const getColor = (index) => ['rgb(245,205,70)', 'rgb(25,70,230)'][index];
+const zoomDomain = {y: [60, 100]};
 
 const Visualize = () => {
     const [lineChecks, dispatchLine] = useReducer(reducer(json), {
+        "0": false
     });
     const [axisChecks, dispatchAxis] = useReducer(reducer(json), {
+        "0": false
     });
 
     const checkedLines = useMemo(() => json
@@ -27,6 +27,8 @@ const Visualize = () => {
     const averages = useMemo(() => json
             .filter(({name}) => axisChecks[name] ?? true)
         , [axisChecks]);
+
+    const applyZoom = (lineChecks['0'] ?? true) && (axisChecks['0'] ?? true);
 
     return (
         <>
@@ -77,12 +79,17 @@ const Visualize = () => {
                 })}
             </div>
             <div className="clear"/>
-            <h1>реальные примеры</h1>
+            <h1>Один прогон - один Profiler</h1>
             <div className="chart">
                 <VictoryChart
                     height={800}
                     width={1000}
-
+                    containerComponent={
+                        !applyZoom ? <VictoryZoomContainer
+                            zoomDimension="y"
+                            zoomDomain={zoomDomain}
+                        /> : undefined
+                    }
                 >
                     <VictoryAxis
                         dependentAxis

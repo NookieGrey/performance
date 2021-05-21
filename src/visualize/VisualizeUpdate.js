@@ -6,16 +6,20 @@ import {
 } from 'victory';
 import {Fragment, useMemo, useReducer} from 'react';
 
-import './virtualize.css';
+import './visualize.css';
 
-import json from './mount.json';
+import json from '../data/update.json';
 import {reducer, action, getColor, allChecked, MemoLabels} from "./visualizeUtils";
 
-const zoomDomain = {y: [135, 160]};
+const zoomDomain = {y: [55, 70]};
 
 const Visualize = () => {
-    const [lineChecks, dispatchLine] = useReducer(reducer(json), {});
-    const [axisChecks, dispatchAxis] = useReducer(reducer(json), {});
+    const [lineChecks, dispatchLine] = useReducer(reducer(json), {
+        'update-ComponentMMM': false
+    });
+    const [axisChecks, dispatchAxis] = useReducer(reducer(json), {
+        'update-ComponentMMM': false
+    });
 
     const checkedLines = useMemo(() => json
             .filter(({name}) => lineChecks[name] ?? true)
@@ -24,6 +28,8 @@ const Visualize = () => {
     const averages = useMemo(() => json
             .filter(({name}) => axisChecks[name] ?? true)
         , [axisChecks]);
+
+    const applyZoom = (lineChecks['update-ComponentMMM'] ?? true) && (axisChecks['update-ComponentMMM'] ?? true);
 
     return (
         <>
@@ -80,16 +86,16 @@ const Visualize = () => {
                 })}
             </div>
             <div className="clear"/>
-            <h1>Стоимость мемоизации 10-15%</h1>
+            <h1>memo работает только в триплете</h1>
             <div className="chart">
                 <VictoryChart
                     height={800}
                     width={1000}
                     containerComponent={
-                        <VictoryZoomContainer
+                        !applyZoom ? <VictoryZoomContainer
                             zoomDimension="y"
                             zoomDomain={zoomDomain}
-                        />
+                        /> : undefined
                     }
                 >
                     <VictoryAxis

@@ -1,24 +1,23 @@
 import {
     VictoryChart,
     VictoryLine,
-    VictoryAxis,
-    VictoryZoomContainer,
+    VictoryAxis, VictoryZoomContainer,
 } from 'victory';
 import {Fragment, useMemo, useReducer} from 'react';
 
-import './virtualize.css';
+import './visualize.css';
 
-import json from './update.json';
-import {reducer, action, getColor, allChecked, MemoLabels} from "./visualizeUtils";
+import json from '../data/real2.json';
+import {reducer, action, allChecked} from "./visualizeUtils";
 
-const zoomDomain = {y: [55, 70]};
+const zoomDomain = {y: [0, 60]};
+
+const getColor = (index) => ['rgb(245,205,70)', 'rgb(25,70,230)'][index];
 
 const Visualize = () => {
     const [lineChecks, dispatchLine] = useReducer(reducer(json), {
-        'update-ComponentMMM': false
     });
     const [axisChecks, dispatchAxis] = useReducer(reducer(json), {
-        'update-ComponentMMM': false
     });
 
     const checkedLines = useMemo(() => json
@@ -29,11 +28,9 @@ const Visualize = () => {
             .filter(({name}) => axisChecks[name] ?? true)
         , [axisChecks]);
 
-    const applyZoom = (lineChecks['update-ComponentMMM'] ?? true) && (axisChecks['update-ComponentMMM'] ?? true);
-
     return (
         <>
-            <div className="form">
+            <div className="form-simple">
                 <input
                     type='checkbox' checked={allChecked(lineChecks) && allChecked(axisChecks)}
                     onChange={event => {
@@ -45,9 +42,7 @@ const Visualize = () => {
                     type='checkbox' checked={allChecked(lineChecks)}
                     onChange={event => dispatchLine(action()(event))}
                 />
-                <span>memo</span>
-                <span>useMemo</span>
-                <span>useCallback</span>
+                <span>Name</span>
                 <label>
                     <input
                         type='checkbox' checked={allChecked(axisChecks)}
@@ -69,11 +64,7 @@ const Visualize = () => {
                                 type='checkbox' checked={lineChecks[name] ?? true}
                                 onChange={event => dispatchLine(action(name)(event))}
                             />
-                            <MemoLabels
-                                name={name}
-                                index={index}
-                                total={json.length}
-                            />
+                            <span style={{color: getColor(index, json.length)}}>{name}</span>
                             <label>
                                 <input
                                     type='checkbox' checked={axisChecks[name] ?? true}
@@ -86,16 +77,16 @@ const Visualize = () => {
                 })}
             </div>
             <div className="clear"/>
-            <h1>memo работает только в триплете</h1>
+            <h1>реальные примеры</h1>
             <div className="chart">
                 <VictoryChart
                     height={800}
                     width={1000}
                     containerComponent={
-                        !applyZoom ? <VictoryZoomContainer
+                        <VictoryZoomContainer
                             zoomDimension="y"
                             zoomDomain={zoomDomain}
-                        /> : undefined
+                        />
                     }
                 >
                     <VictoryAxis

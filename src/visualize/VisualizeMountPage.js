@@ -6,12 +6,12 @@ import {
 } from 'victory';
 import {Fragment, useMemo, useReducer} from 'react';
 
-import './virtualize.css';
+import './visualize.css';
 
-import json from './mount3.json';
+import json from '../data/mount.json';
 import {reducer, action, getColor, allChecked, MemoLabels} from "./visualizeUtils";
 
-const zoomDomain = {y: [65, 100]};
+const zoomDomain = {y: [135, 160]};
 
 const Visualize = () => {
     const [lineChecks, dispatchLine] = useReducer(reducer(json), {});
@@ -80,7 +80,7 @@ const Visualize = () => {
                 })}
             </div>
             <div className="clear"/>
-            <h1>Обновление</h1>
+            <h1>Стоимость мемоизации 10-15%</h1>
             <div className="chart">
                 <VictoryChart
                     height={800}
@@ -121,8 +121,8 @@ const Visualize = () => {
                                     axisValue={average}
                                 />
                             );
-                        })
-                    }
+                        })}
+
                 </VictoryChart>
             </div>
         </>

@@ -4,19 +4,18 @@ import {
     Route,
     Link
 } from "react-router-dom";
-import GeneratorMountPage from "./GeneratorMountPage";
-import GeneratorMountPage5 from "./GeneratorMountPage5";
-import GeneratorMountState from "./GeneratorMountState";
-import GeneratorUpdate from "./GeneratorUpdate";
-import GeneratorMountWormUp from "./GeneratorMountWormUp";
-import VisualizeMountPage from "./VisualizeMountPage";
-import VisualizeMountState from "./VisualizeMountState";
-import VisualizeMountPage5 from "./VisualizeMountPage5";
-import VisualizeUpdate from "./VisualizeUpdate";
-import VisualizeUpdateReal from "./VisualizeUpdateReal";
-import VisualizeWormUp from "./VisualizeWormUp";
-import VisualizeUpdateReal2 from "./VisualizeUpdateReal2";
-import Test from "./Test";
+import GeneratorMountPage from "../generators/GeneratorMountPage";
+import GeneratorMountPage5 from "../generators/GeneratorMountPage5";
+import GeneratorMountState from "../generators/GeneratorMountState";
+import GeneratorUpdate from "../generators/GeneratorUpdate";
+import GeneratorMountWormUp from "../generators/GeneratorMountWormUp";
+import VisualizeMountPage from "../visualize/VisualizeMountPage";
+import VisualizeMountState from "../visualize/VisualizeMountState";
+import VisualizeMountPage5 from "../visualize/VisualizeMountPage5";
+import VisualizeUpdate from "../visualize/VisualizeUpdate";
+import VisualizeUpdateReal from "../visualize/VisualizeUpdateReal";
+import VisualizeWormUp from "../visualize/VisualizeWormUp";
+import VisualizeUpdateReal2 from "../visualize/VisualizeUpdateReal2";
 
 import './routes.css';
 
@@ -57,9 +56,6 @@ const Routes = () => {
                     <li>
                         <Link to="/generatorMountWormUp">Generate Mount Worm Up</Link>
                     </li>
-                    <li>
-                        <Link to="/Test">Test</Link>
-                    </li>
                 </ul>
             </nav>
             <Switch>
@@ -82,10 +78,6 @@ const Routes = () => {
                 <Route
                     path="/generatorMountWormUp"
                     component={GeneratorMountWormUp}
-                />
-                <Route
-                    path="/Test"
-                    component={Test}
                 />
                 <Route
                     path="/visualizeMountPage"
