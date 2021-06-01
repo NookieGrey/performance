@@ -9,6 +9,7 @@ import GeneratorMountPage5 from "../generators/GeneratorMountPage5";
 import GeneratorMountState from "../generators/GeneratorMountState";
 import GeneratorUpdate from "../generators/GeneratorUpdate";
 import GeneratorMountWormUp from "../generators/GeneratorMountWormUp";
+import GeneratorCallback from "../generators/GeneratorCallback";
 import VisualizeMountPage from "../visualize/VisualizeMountPage";
 import VisualizeMountState from "../visualize/VisualizeMountState";
 import VisualizeMountPage5 from "../visualize/VisualizeMountPage5";
@@ -16,6 +17,7 @@ import VisualizeUpdate from "../visualize/VisualizeUpdate";
 import VisualizeUpdateReal from "../visualize/VisualizeUpdateReal";
 import VisualizeWormUp from "../visualize/VisualizeWormUp";
 import VisualizeUpdateReal2 from "../visualize/VisualizeUpdateReal2";
+import VisualizeCallback from "../visualize/VisualizeCallback";
 
 import './routes.css';
 
@@ -39,6 +41,9 @@ const Routes = () => {
                     <li>
                         <Link to="/VisualizeUpdateReal2">Visualize Update Real 2</Link>
                     </li>
+                    <li>
+                        <Link to="/VisualizeCallback">Visualize Callback</Link>
+                    </li>
                 </ul>
                 <ul>
                     <li>
@@ -55,6 +60,9 @@ const Routes = () => {
                     </li>
                     <li>
                         <Link to="/generatorMountWormUp">Generate Mount Worm Up</Link>
+                    </li>
+                    <li>
+                        <Link to="/generatorCallback">Generate Callback</Link>
                     </li>
                 </ul>
             </nav>
@@ -110,6 +118,14 @@ const Routes = () => {
                 <Route
                     path="/VisualizeUpdateReal2"
                     component={VisualizeUpdateReal2}
+                />
+                <Route
+                    path="/generatorCallback"
+                    component={GeneratorCallback}
+                />
+                <Route
+                    path="/VisualizeCallback"
+                    component={VisualizeCallback}
                 />
             </Switch>
         </Router>
