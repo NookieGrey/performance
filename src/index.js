@@ -1,8 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Routes from "./routes/Routes";
+import {createRoot} from 'react-dom/client';
+import {Home} from "./Home";
 
-ReactDOM.render(
+createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Routes />
   </React.StrictMode>,

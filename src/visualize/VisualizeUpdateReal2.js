@@ -7,10 +7,10 @@ import {Fragment, useMemo, useReducer} from 'react';
 
 import './visualize.css';
 
-import json from '../data/real2.json';
+import json from '../data/real1.json';
 import {reducer, action, allChecked} from "./visualizeUtils";
 
-const zoomDomain = {y: [0, 60]};
+const zoomDomain = {y: [0, 120]};
 
 const getColor = (index) => ['rgb(245,205,70)', 'rgb(25,70,230)'][index];
 
