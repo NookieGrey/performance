@@ -7,10 +7,10 @@ import {Fragment, useMemo, useReducer} from 'react';
 
 import './visualize.css';
 
-import json from '../data/updateReal.json';
+import json from '../data/real2.json';
 import {reducer, action, allChecked} from "./visualizeUtils";
 
-const zoomDomain = {y: [0, 50]};
+const zoomDomain = {y: [0, 60]};
 
 const getColor = (index) => ['rgb(245,205,70)', 'rgb(25,70,230)'][index];
 
@@ -101,20 +101,6 @@ const Visualize = () => {
                             />
                         )
                     })}
-                    {averages
-                        .map(({average, index}) => {
-                            return (
-                                <VictoryAxis
-                                    key={index}
-                                    style={{
-                                        tickLabels: {fill: "none"},
-                                        axis: {stroke: getColor(index, json.length), strokeWidth: 5}
-                                    }}
-                                    axisValue={average}
-                                />
-                            );
-                        })}
-
                 </VictoryChart>
             </div>
         </>
